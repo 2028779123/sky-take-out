@@ -1,6 +1,8 @@
 package com.sky.controller.admin;
 
 import com.sky.dto.SetmealDTO;
+import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.SetmealService;
 import io.swagger.annotations.Api;
@@ -20,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 public class SetmealController {
 
     @Autowired
-    private SetmealService mealService;
+    private SetmealService setmealService;
 
 
     /**
@@ -32,10 +34,22 @@ public class SetmealController {
     @ApiOperation("新增套餐")
     public Result save(@RequestBody SetmealDTO setmealDTO){
         log.info("新增套餐：{}",setmealDTO);
-        mealService.saveWithDish(setmealDTO);
+        setmealService.saveWithDish(setmealDTO);
 
         return Result.success();
 
     }
 
+    /**
+     * 套餐分页查询
+     * @param setmealPageQueryDTO
+     * @return
+     */
+    @GetMapping("/page")
+    @ApiOperation("套餐分页查询")
+    public Result<PageResult> page(SetmealPageQueryDTO setmealPageQueryDTO){
+        log.info("");
+        PageResult pageResult=setmealService.pageQuery(setmealPageQueryDTO);
+        return Result.success(pageResult);
+    }
 }
