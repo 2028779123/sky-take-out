@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -71,7 +72,7 @@ public class SetmealServiceImpl implements SetmealService {
         ids.forEach(
                 id -> {
                     Setmeal setmeal = setmealMapper.getById(id);
-                    if(setmeal.getStatus()== StatusConstant.ENABLE){
+                    if (setmeal.getStatus() == StatusConstant.ENABLE) {
                         throw new DeletionNotAllowedException(MessageConstant.SETMEAL_ON_SALE);
                     }
 
@@ -86,4 +87,60 @@ public class SetmealServiceImpl implements SetmealService {
     }
 
 
+    /**
+     * 根据id查询套餐和菜品关系
+     *
+     * @param id
+     * @return
+     */
+    public SetmealVO getByIdWithDish(Long id) {
+        //根据id获取套餐信息
+        Setmeal setmeal = setmealMapper.getById(id);
+        //获取该套餐下菜品关系
+        List<SetmealDish> setmealDishes = setmealDishMapper.getBySetmealId(id);
+        SetmealVO setmealVO = new SetmealVO();
+        BeanUtils.copyProperties(setmeal, setmealVO);
+        setmealVO.setSetmealDishes(setmealDishes);
+        return setmealVO;
+    }
+
+
+    @Transactional
+    public void update(SetmealDTO setmealDTO) {
+        //修改套餐表
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+        setmealMapper.update(setmeal);
+
+        Long setmealId = setmealDTO.getId();
+        //删除套餐菜品关系表
+        setmealDishMapper.deleteBySetmealId(Collections.singletonList(setmealId));
+        //重新插入菜品关系表
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+
+        if (setmealDishes != null && setmealDishes.size() > 0) {
+            setmealDishes.forEach(setmealDish -> {
+                setmealDish.setSetmealId(setmealId);
+            });
+            setmealDishMapper.insertBatch(setmealDishes);
+
+
+        }
+
+
+    }
+
+    /**
+     * 启用禁用套餐
+     *
+     * @param status
+     * @param id
+     */
+    public void StarOrStop(Integer status, Long id) {
+        Setmeal setmeal = Setmeal.builder()
+                .status(status)
+                .id(id)
+                .build();
+        setmealMapper.update(setmeal);
+    }
 }

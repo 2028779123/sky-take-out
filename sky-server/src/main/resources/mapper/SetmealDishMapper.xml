@@ -11,6 +11,7 @@
 
 
     </insert>
+
     <delete id="deleteBySetmealId">
         delete from setmeal_dish where setmeal_id in
         <foreach collection="ids" separator="," open="(" close=")" item="setmealId">
@@ -25,6 +26,7 @@
             #{dishId}
         </foreach>
     </select>
+
 </mapper>
 
 
