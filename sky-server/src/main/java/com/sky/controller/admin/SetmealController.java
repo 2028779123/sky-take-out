@@ -100,8 +100,8 @@ public class SetmealController {
 
     @PostMapping("/status/{status}")
     @ApiOperation("启用禁用套餐")
-    public Result StarOrStop(@PathVariable Integer status,Long id){
-        setmealService.StarOrStop(status,id);
+    public Result StartOrStop(@PathVariable Integer status,Long id){
+        setmealService.StartOrStop(status,id);
         return Result.success();
     }
 

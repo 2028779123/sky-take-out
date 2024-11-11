@@ -137,7 +137,7 @@ public class SetmealServiceImpl implements SetmealService {
      * @param status
      * @param id
      */
-    public void StarOrStop(Integer status, Long id) {
+    public void StartOrStop(Integer status, Long id) {
         Setmeal setmeal = Setmeal.builder()
                 .status(status)
                 .id(id)

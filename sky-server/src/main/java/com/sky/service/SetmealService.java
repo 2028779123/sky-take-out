@@ -44,7 +44,7 @@ public interface SetmealService {
      */
     void update(SetmealDTO setmealDTO);
 
-    void StarOrStop(Integer status,Long id);
+    void StartOrStop(Integer status,Long id);
 
     /**
      * 条件查询

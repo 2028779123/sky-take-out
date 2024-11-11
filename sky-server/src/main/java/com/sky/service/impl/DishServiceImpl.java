@@ -202,6 +202,15 @@ public class DishServiceImpl implements DishService {
 
         return dishVOList;
     }
+
+
+    public void startOrstop(Integer status, long id) {
+        Dish dish = Dish.builder()
+                .status(status)
+                .id(id)
+                .build();
+        dishMapper.update(dish);
+    }
 }
 
 
