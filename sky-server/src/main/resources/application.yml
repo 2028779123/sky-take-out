@@ -13,10 +13,10 @@ spring:
       username: ${sky.datasource.username}
       password: ${sky.datasource.password}
   redis:
-    host:${sky.datasource.username}
-    port:${sky.datasource.port}
-    password:${sky.datasource.password}
-    database:${sky.datasource.database}
+    host: ${sky.redis.host}
+    port: ${sky.redis.port}
+    password: ${sky.redis.password}
+    database: ${sky.redis.database}
 
 
 mybatis:
@@ -64,3 +64,12 @@ sky:
     weChatPayCertFilePath: ${sky.wechat.weChatPayCertFilePath}
     notifyUrl: ${sky.wechat.notifyUrl}
     refundNotifyUrl: ${sky.wechat.refundNotifyUrl}
+
+  shop:
+    address: ${sky.shop.address}
+
+
+  baidu:
+    ak: ${sky.baidu.ak}
+
+
